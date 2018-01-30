@@ -1,7 +1,17 @@
-﻿# Lists all the indexes with >1000 pages and 20% avg fragmenatation for all databases in all servers in the list
+﻿
+<#
 
- $AllServers = gc "$psscriptroot\specific.txt" 
- Remove-Item "$psscriptroot\IndexCheck.csv" -force
+AUTHOR: BIBIDH BISTA
+
+Goes through all the tables in multipe databases in a given list of servers to check for index fragmentation above certain threshold
+#>
+
+ 
+ 
+ # Lists all the indexes with >1000 pages and 20% avg fragmenatation for all databases in all servers in the list
+
+ $AllServers = gc "$psscriptroot\specific.txt"                         ######### Change This
+ Remove-Item "$psscriptroot\IndexCheck.csv" -force                     ######### Change This
     
  $currentServerName = ''
  # remove this if querying all the servers on the list 
@@ -11,7 +21,7 @@
     # Execute a command
     $currentServerName = $_
     Write-Host "[processing '$currentServerName' inside the loop]"
-    $databases = Get-DbaDatabase -SqlInstance $_
+    $databases = Get-DbaDatabase -SqlInstance $_                       ######### Requires dbatools from dbatools.io
     
     # take this away when querying all databases
     #$databases = 'qrm_source'
@@ -52,7 +62,7 @@ AND [avg_fragmentation_in_percent] > 20
  }
 
  # open the csv file to see results
- Invoke-Item -Path "$psscriptroot\IndexCheck.csv"
+ Invoke-Item -Path "$psscriptroot\IndexCheck.csv"                               ######### Change This based on the value in line 14
 
 
   
